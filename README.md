@@ -22,7 +22,9 @@ name, password, host etc.
 
 ### Run the project on localhost.
 
-Then run these command. Create a log directory
+Then run these command. 
+
+Create a log directory
 
 ```sh
 mkdir log
@@ -48,7 +50,7 @@ For running project.
 python manage.py runserver
 ```
 
-Now you can browse: http://127.0.0.1:8000/admin
+Now you can browse: http://127.0.0.1:8000/
 
 For api's operation, you can see
 [ api documentation doc](API documentation.pdf)
@@ -99,3 +101,4 @@ ALTER TABLE table_name MODIFY field_name VARCHAR(191) CHARACTER SET utf8mb4 COLL
 ```
 
 NB: 3 number option, 2nd option (b) can't fully understand. Therefore, it did not complete.
+I have added an API key and a channel ID in env.keep file. You can use it.
