@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Youtube Video List</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Video List</h2>
+    <p>Type something in the input field to search the table for the tag name:</p>
+    <input class="form-control" id="myInput" type="text" placeholder="Search by tag name">
+    <br>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>View Count</th>
+            <th>Like Count</th>
+            <th>Favorite Count</th>
+            <th>Dislike Count</th>
+            <th>Comment Count</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+
+        </tbody>
+
+    </table>
+</div>
+
+<script>
+    let url = 'http://127.0.0.1:8000/api/v1/youtube/videos'
+    document.querySelector('#myInput').addEventListener('keyup', filterByTag)
+
+    function filterByTag() {
+        const searchInput = document.querySelector('#myInput')
+        var filter = searchInput.value
+        url = 'http://127.0.0.1:8000/api/v1/youtube/videos?search=' + filter
+        getVideos(url)
+    }
+
+    getVideos(url)
+
+    function getVideos(url) {
+        fetch(url).then((data) => {
+            //console.log(data)
+            return data.json()
+        }).then((objectData) => {
+            renderDataInTheTable(objectData)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+    function renderDataInTheTable(users) {
+        let tableData = ""
+        users.map((value, key) => {
+            tableData += `<tr>
+            <th>${key + 1}</th>
+            <th>${value.title}</th>
+            <th>${value.description}</th>
+            <th><img src="${value.thumbnails_default_url}"/>
+            <th>${value.stats.view_count}</th>
+            <th>${value.stats.like_count}</th>
+            <th>${value.stats.favorite_count}</th>
+            <th>${value.stats.dislike_count}</th>
+            <th>${value.stats.comment_count}</th>
+        </tr>`
+        });
+        document.getElementById("myTable").innerHTML = tableData
+    }
+</script>
+
+</body>
+</html>
